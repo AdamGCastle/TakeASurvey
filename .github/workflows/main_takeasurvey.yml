@@ -53,5 +53,5 @@ jobs:
         with:
           app-name: 'takeasurvey'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_FF486A75495740E79454910EDE769961 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B1A06D9E9CC6497DB0DBF7A9AF7CCDE5 }}
           package: .
