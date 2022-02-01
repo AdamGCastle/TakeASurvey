@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { ResponsesService } from 'src/app/responses.service';
-import { Question, Answer, Survey } from 'src/app/models';
-import { Subscription, Observable } from 'rxjs';
+import { Survey } from 'src/app/models';
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 
 @Component({
@@ -216,29 +215,21 @@ export class TakeSurveyComponent implements OnInit {
   // }
 
   survey: Survey;
-
-  questions: any[] = [];
-  responseList: Answer[];
-  questionnaireForm: FormGroup;
+  questions: any[] = [];   
   formSubmitted: boolean = false;
-  isLoading: boolean = false;
-  // responseList$: Observable<Answer[]>;
-  // questions$: Observable<Question[]>;
+  isLoading: boolean = false;  
   formstate: any[] = [];
-  formValid: boolean = false;
-  totalResponses;
+  formValid: boolean = false; 
 
 
   ngOnInit() {
 
     this.isLoading = true;
-    const id = this.route.snapshot.paramMap.get("id");
-    console.log(id);
-    // console.log(this.survey.questions.length);
+    const id = this.route.snapshot.paramMap.get("id");    
     this.responsesService.getSurvey$(id)
       .subscribe(data => {
         this.survey = data;
-        this.survey.questions = this.survey.questions.map(d => {
+        this.questions = this.survey.questions.map(d => {
               //ADD EXTRA FRONT-END SPECIFIC DATA TO QUESTION OBJECT
               return {
                 ...d,
@@ -247,14 +238,12 @@ export class TakeSurveyComponent implements OnInit {
                 errorMessage: ''                
               }
             });
-        console.log(this.survey);          
+        console.log(this.survey); 
+        if(this.survey != null){this.isLoading = false;}                 
         this.cd.markForCheck();            
-      });      
+      });              
 
     
-    
-
-    this.isLoading = false; 
   }
 
   reset() {
@@ -262,8 +251,8 @@ export class TakeSurveyComponent implements OnInit {
   }
 
   logResponse(event, question, answer) {
-
-    console.log(event.target.checked, question, answer);
+    // console.log(this.questions)
+    // console.log(event.target.checked, question, answer);
     //GET THE QUESTION OBJECT IN THE ARRAY   
     const questionInState = this.formstate.find(q => q.questionID === question.questionID);
     if (questionInState) {
@@ -286,7 +275,6 @@ export class TakeSurveyComponent implements OnInit {
             this.formstate.splice(indexToSplice, 1, questionInState);
           } else {
             this.formstate.splice(indexToSplice, 1);
-
           }
         }
 
@@ -298,10 +286,10 @@ export class TakeSurveyComponent implements OnInit {
       this.formstate.push({ questionID: question.questionID, text: question.text, answers: [answer], isValid: true });
     }
     // console.log(` Here's the new formstate: `,this.formstate)
-    this.validateForm(question);
+    this.validateQuestion(question);
   }
 
-  validateForm(question) {
+  validateQuestion(question) {    
 
     if (!question) { return };
     const questionInState = this.formstate.find(q => q.questionID === question.questionID);
@@ -314,19 +302,26 @@ export class TakeSurveyComponent implements OnInit {
       this.questions.splice(indexToSplice, 1, question)
 
     } else {
-      // console.log(`This question has just been taken out of the formstate, so it's not valid. About to set it as invalid...`)
+      console.log(`This question has just been taken out of the formstate, so it's not valid. About to set it as invalid...`)
       question.isTouched = true;
       question.isValid = false;
       const indexToSplice = this.questions.findIndex(q => q.questionID === question.questionID);
-      question.errorMessage = "Please select at least one answer"
-      this.questions.splice(indexToSplice, 1, question)
+      question.errorMessage = "Please select at least one answer";
+      this.questions.splice(indexToSplice, 1, question);
+      console.log(this.questions)
 
     }
+    this.cd.markForCheck();
+    this.validateForm();
+    
+  }
 
-    let allAnswered: boolean = this.questions.every(q => q.isValid > 0);
-    if (allAnswered) { this.formValid = true; }
+  validateForm(){    
+    let allAnswered: boolean = this.questions.every(q => q.isValid == true);    
+    this.formValid = allAnswered ? true : false;   
 
     this.cd.markForCheck();
+
   }
 
 
@@ -342,54 +337,42 @@ export class TakeSurveyComponent implements OnInit {
     } else {
       //CHECK EACH QUESTION IS ANSWERED
       let questionsHaveAnswers: boolean = this.formstate.every(q => q.answers.length > 0);
-
       if (!questionsHaveAnswers) {
         alert('Please answer all questions')
       } else {
         //GET DATA INTO STRING ARRAY
 
         let answers = this.formstate.map(q => q.answers);
+        console.log(answers)
         let answers2 = [].concat.apply([], answers);
         let answerIDs = answers2.map(a => a.answerID);
 
         console.log(answerIDs);
-        var merged = [].concat.apply([], answerIDs);
-        let newResponses = merged.map(e => e.toString());
+        let mergedAnswerArray = [].concat.apply([], answerIDs);
+        let stringOfResponses = mergedAnswerArray.map(e => e.toString());
 
         //SEND PUT REQUEST TO BACKEND    
 
-        console.log(`These are the responses that will be sent to the api:  ${newResponses}`);
-        this.responsesService.put(newResponses).subscribe(data => { console.log(data) });
-
-        // CALCULATE PERCENTAGES AGAIN 
-
-        //THIS LOGIC IS WRONG, RAN OUT OF TIME. GOING TO HAVE TO MAKE DO WITH THE UN-UPDATED PERCENTAGES FOR NOW.
-
-        // let total = 0;
-        // merged.forEach(response => {
-        //   //FIND ANSWER AND CORRESPONDING QUESTION(which contains the total number of times the question has been answered)
-        //   let answerToIncrement = this.responseList.find(i => i.AnswerID === response);        
-        //   let correspondingQuestion = this.questions.find(q => q.QuestionID === answerToIncrement.QuestionID);        
-        //   //CALCULATE PRECENTAGES WITH NEW DATA        
-        //   total = correspondingQuestion.TotalResponses + 1;        
-        //   answerToIncrement.CountResponses++;
-
-        //   let ratio = answerToIncrement.CountResponses / total;
-        //   let percent = Math.round(ratio * 100);  
-        //   console.log(`${answerToIncrement.CountResponses} is ${percent} of ${total}`)
-        //   answerToIncrement.Percentage = percent;  
-        //   //UPDATE ANSWERS IN RESPONSE ARRAY
-        //   const indexToSplice = this.responseList.findIndex(r => r.AnswerID === answerToIncrement.AnswerID);      
-        //   this.responseList.splice(indexToSplice, 1 , answerToIncrement) 
-        //  })
-
-        //SWITCH VIEW TO HIDE FORM INPUTS AND REVEAL RESPONSE PERCENTAGES
-        this.totalResponses++;
-        this.formSubmitted = true;
-        console.log(this.responseList);
+        console.log(`These are the responses that will be sent to the api:  ${stringOfResponses}`);
+        this.responsesService.put(stringOfResponses).subscribe(data => { console.log(data) });
+        
+        this.calculatePercentages(mergedAnswerArray);               
+        this.formSubmitted = true;        
       }
     }
   }
 
+  calculatePercentages(answerArray: number[]){   
 
+    this.questions.forEach( q => {
+      q.totalResponses++;
+      q.answers.forEach(a => {
+        if(answerArray.includes(a.answerID)){
+          a.countResponses++;
+        }
+        let ratio = a.countResponses/q.totalResponses;
+        a.percentage = Math.round(ratio*100)
+      })
+    })
+  }
 }

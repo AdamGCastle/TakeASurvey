@@ -17,7 +17,7 @@ export class ResponsesService {
   public answersreceived : boolean = false;
 
   getSurveys$(){
-    return this.httpClient.get<{}>('https://localhost:44322/api/Surveys')
+    return this.httpClient.get<{}>('https://acsurvey.azurewebsites.net/api/Surveys')
                   .pipe(
                     map((data: { [key: number]: Survey }) => {
                     const dataArray: Survey[] = [];
@@ -30,12 +30,12 @@ export class ResponsesService {
   }
 
   getSurvey$(id: string):Observable<Survey>{
-    return this.httpClient.get<Survey>(`https://localhost:44322/api/Surveys/${id}`)    
+    return this.httpClient.get<Survey>(`https://acsurvey.azurewebsites.net/api/Surveys/${id}`)    
 
   }
 
   getQuestions$(){
-    return this.httpClient.get<{}>('https://localhost:44322/api/questions')
+    return this.httpClient.get<{}>('https://acsurvey.azurewebsites.net/api/questions')
                   .pipe(
                     map((data: { [key: number]: Question }) => {
                     const dataArray: Question[] = [];
@@ -53,21 +53,19 @@ export class ResponsesService {
                   //   }); 
   }
   getResponses$(){
-    return this.httpClient.get<{}>('https://localhost:44322/api/answers')
+    return this.httpClient.get<{}>('https://acsurvey.azurewebsites.net/api/answers')
                 .pipe(
                   map((data: { [key: number]: Answer }) => {
                   const dataArray: Answer[] = [];
                   for (const key in data) {
                     if(data.hasOwnProperty(key)){
                     dataArray.push({...data[key]}); }}
-                  return dataArray;}))
-                    
-                
+                  return dataArray;}))           
   }
 
   put(responses){
     
-    return this.httpClient.put('https://localhost:44322/api/surveys', responses);    
+    return this.httpClient.put('https://acsurvey.azurewebsites.net/api/surveys', responses);    
   }
 
   public surveyList: Survey[];

@@ -1,24 +1,24 @@
 <div class="content" role="main">
-
+    <h1>Hello!</h1>
     <div class="container" style="justify-content: center">
-      <div class="row gutters-sm mt-4">
-          <div class="col-md-2" style="width: 100%; flex-shrink: 5">
-          </div>
-          <div class="col-md-6 mb-3" style="flex-shrink: 0">
-              <div class="card" style="width:75%">
-                  <div class="card-body">
-                    <span>Welcome to TakeASurvey!</span>
-                    <p>Please select a survey to take from our list below:</p>
-                    <div *ngFor='let survey of surveys'>
-                        <p><a [routerLink]="['/takesurvey', survey.surveyID]">{{survey.name}}</a></p>
-  
+        <div class="row gutters-sm mt-4">
+            <div class="col-md-2" style="width: 100%; flex-shrink: 5">
+            </div>
+            <div class="col-md-6 mb-3" style="flex-shrink: 0">
+                <div class="card" style="width:60%">
+                    <div class="card-body">
+                        <h1>Welcome to TakeASurvey!</h1>
+                        <p>Please select a survey to take from our list below:</p>
+                        <div *ngFor='let survey of surveys'>
+                            <ul>
+                                <li><a [routerLink]="['/takesurvey', survey.surveyID]">{{survey.name}}</a></li>
+                            </ul>                         
+                        </div>                      
                     </div>
-  
-                    
-                  </div>
-              </div>
-         </div>
-         <div class="col-md-2" style="width: 100%; flex-shrink: 5">
-         </div>
-      </div>
-  </div>
+                </div>
+            </div>
+            <div class="col-md-2" style="width: 100%; flex-shrink: 5">
+            </div>
+        </div>
+    </div>
+</div>

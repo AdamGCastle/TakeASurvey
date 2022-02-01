@@ -1,67 +1,72 @@
-<p>take-survey works!</p>
-
-<div class="container" style="justify-content: center">
-    <div class="row gutters-sm mt-4">
-        <div class="col-md-2" style="width: 100%; flex-shrink: 5">
-        </div>
-        <div class="col-md-6 mb-3" style="flex-shrink: 0">
-            <div class="card" style="width:75%">
-                <div class="card-body">
-
-                    <div *ngIf="!formSubmitted"> 
-                    <h2 class="text-center"> Agility Questionnaire</h2>
-                    <br>
-                    <br>
-
-                    <div *ngIf="survey.questions.length === 0"> No survey</div>
-                    <div *ngIf="!isLoading && survey.questions.length > 0">
-                    
-                        <div *ngFor='let question of survey.questions'>
-
-                            <div *ngIf="question.isMultipleChoice"> 
-                                <p> {{question.text}}<strong><em> (multiple choice)</em></strong></p>                
-                                <div *ngFor='let answer of question.answers'> 
-                                    <input type='checkbox' (change)='logResponse($event, question, answer)' />  {{answer.text}}
+<div class="content" role="main">
+    <h1>Hello!</h1>
+    <div class="container" style="justify-content: center">
+        <div class="row gutters-sm mt-4">
+            <div class="col-md-2" style="width: 100%; flex-shrink: 5">
+            </div>
+            <div class="col-md-6 mb-3" style="flex-shrink: 0">
+                <div class="card" style="width:60%">
+                    <div class="card-body">
+                        <div *ngIf="isLoading"><span>Loading ...</span></div>
+                        <div *ngIf="!formSubmitted && !isLoading"> 
+                            <div *ngIf="survey.name != undefined"><h2 class="text-center"> {{survey.name}}</h2></div>
+                            <br>
+                            <br>
+                            <div *ngIf="survey.questions.length === 0"> No survey</div>
+                            <div *ngIf="survey.questions.length > 0">                       
+                                <div *ngFor='let question of survey.questions'>
+                                    <div *ngIf="question.isMultipleChoice"> 
+                                    <strong> {{question.text}}</strong> <br>                                      
+                                    <em> (You can select more than one answer)</em>      
+                                    <br> 
+                                    <br>
+                                    <div *ngFor='let answer of question.answers'> 
+                                        <input type='checkbox' (change)='logResponse($event, question, answer)' />  {{answer.text}}
+                                    </div> 
+                                    <span class="error">{{question.errorMessage}}</span>
+                                    <br>
                                 </div> 
-                                <span class="error">{{question.errorMessage}}</span>
-                                <br>
-                            </div> 
 
-                            <div *ngIf="!question.isMultipleChoice">
-                                <p> {{question.text}}<strong><em> (single choice)</em></strong></p> 
-                                <div *ngFor='let answer of question.answers'>
-                                    <input type='radio' name={{question.questionID}} (change)='logResponse($event, question, answer)'/>  {{answer.text}} 
-                                </div>
-                                <span class="error">{{question.errorMessage}}</span>
-                                <br>
-                            </div>         
-                        </div>   
-                            <button (click)='submitForm()' [disabled]="!formValid">Submit</button>   
+                                <div *ngIf="!question.isMultipleChoice">
+                                    <p><strong>{{question.text}}</strong></p> 
+                                    <div *ngFor='let answer of question.answers'>
+                                        <input type='radio' name={{question.questionID}} (change)='logResponse($event, question, answer)'/>  {{answer.text}} 
+                                    </div>
+                                    <span class="error">{{question.errorMessage}}</span>
+                                    <br>
+                                </div>         
+                            </div>   
+                                <button (click)='submitForm()' [disabled]="!formValid">Submit</button>   
+                            </div>
+
                         </div>
+                        
+
+                        <div *ngIf="formSubmitted && !isLoading">  
+                        <h2>Results</h2>
+                        <br>
+                        <p>Questionnaire Responses : {{survey.totalResponses}} </p>
+                        <br>
+                        <br>
+                        <div *ngFor='let question of questions'>
+                            <p>{{question.text}}</p>                
+                            <div *ngFor='let answer of question.answers'> 
+                                {{answer.text}} <span>{{answer.percentage}} %</span>
+                                </div> 
+                            <br>    
+                        </div> 
+                        <button (click)="reset()">Take Questionnaire again</button>                          
+                        </div>
+                        <br/>
+
+                        <button [routerLink]="['/']">Back</button>
 
                     </div>
                     
-
-                    <div *ngIf="formSubmitted">  
-                    <h2>Results</h2>
-                    <br>
-                    <p>Questionnaire Responses : {{totalResponses}} </p>
-                    <br>
-                    <br>
-                    <div *ngFor='let question of questions'>
-                        <p>{{question.text}}</p>                
-                        <div *ngFor='let answer of question.answers'> 
-                            {{answer.text}} <span>{{answer.percentage}} %</span>
-                            </div> 
-                        <br>    
-                    </div> 
-                    <button (click)="reset()">Take Questionnaire again</button>  
-                    </div>
-
                 </div>
             </div>
-       </div>
-       <div class="col-md-2" style="width: 100%; flex-shrink: 5">
-       </div>
+        <!-- <div class="col-md-2" style="width: 100%; flex-shrink: 5">
+        </div> -->
+        </div>
     </div>
 </div>
