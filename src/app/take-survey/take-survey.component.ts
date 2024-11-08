@@ -62,10 +62,6 @@ export class TakeSurveyComponent implements OnInit {
     location.reload()
   }
 
-  logAllResponses(){
-    console.log(this.survey);
-  }
-
   logResponse(e: any, question: Question, chosenOptionId: number){
 
     if(!question.multipleAnswersPermitted) {
