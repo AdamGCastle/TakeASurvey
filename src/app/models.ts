@@ -1,40 +1,48 @@
-export interface Question{
-    
-    questionID: number;
-    text: string;
-    totalResponses: number; 
-    isMultipleChoice: boolean;
-    surveyID: number
-    answers: Answer[];
-
-}
-
-export interface QuestionsForAnswering{
-
-    questionID: number;
-    text: string;
-    totalResponses: number; 
-    isMultipleChoice: boolean;
-    surveyID: number
-    answers: Answer[];
-    isValid: boolean;
-    errorMessage: string;
-
-}
-
-export interface Answer {
-    // id: string
-    answerID: number;
-    // optionNumber: number;
-    text: string;
-    countResponses: number;
-    percentage: number;
-    questionID: number;    
-}
-
 export interface Survey {
-    name: string;
-    surveyID: number;
-    totalResponses: number;
-    questions: QuestionsForAnswering[];
+  name: string;
+  id: number;
+  timesTaken: number;
+  questions: Question[];
+  responses: Response[];
+  takerName: string;
+}
+
+export interface Question{
+
+  id: number;
+  text: string;
+  responseText: string;
+  totalResponses: number;
+  isMultipleChoice: boolean;
+  surveyID: number
+  multipleChoiceOptions: MultipleChoiceOption[];
+  responseValid: boolean
+  validationMessage: string
+  multipleAnswersPermitted: boolean;
+}
+
+export interface MultipleChoiceOption {
+  id: number;
+  text: string;
+  selected: boolean
+  countResponses: number;
+  percentage: number;
+  questionId: number;
+  timesSelected
+}
+
+export interface SurveyResponse {
+  surveyTakerName: string;
+  surveyId: number;
+  questionResponses: QuestionResponse[];
+}
+
+export interface QuestionResponse {
+  text: string,
+  multipleChoiceOptionResponses: MultipleChoiceOptionResponse[],
+  questionId: number
+}
+
+export interface MultipleChoiceOptionResponse {
+  multipleChoiceOptionId: number;
 }

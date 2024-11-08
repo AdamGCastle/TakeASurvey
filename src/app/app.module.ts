@@ -12,8 +12,8 @@ import { AppComponent } from './app.component';
 
 const appRoutes: Routes = [
   { path: '', component: HomeComponent },
-  { path: 'takesurvey/:id', component: TakeSurveyComponent },  
-  
+  { path: 'takesurvey/:id', component: TakeSurveyComponent },
+
 ];
 
 @NgModule({
@@ -25,9 +25,10 @@ const appRoutes: Routes = [
   imports: [
     BrowserModule,
     AppRoutingModule,
-    ReactiveFormsModule,   
+    ReactiveFormsModule,
     HttpClientModule,
-    RouterModule.forRoot(appRoutes)     
+    RouterModule.forRoot(appRoutes),
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

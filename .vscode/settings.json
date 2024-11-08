@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "/subscriptions/c90aa302-e0f3-4296-8e57-64491eb38693/resourceGroups/AdamCastle/providers/Microsoft.Web/sites/takeasurvey",
+    "appService.deploySubpath": "dist\\TakeSurvey"
+}

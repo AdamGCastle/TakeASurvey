@@ -3,7 +3,8 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  webApiUrl: 'https://portfoliowebapi-dvbwcscga0bygyf4.uksouth-01.azurewebsites.net'  // Development URL
 };
 
 /*

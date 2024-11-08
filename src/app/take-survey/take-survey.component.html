@@ -1,72 +1,81 @@
 <div class="content" role="main">
-    <h1>Hello!</h1>
-    <div class="container" style="justify-content: center">
-        <div class="row gutters-sm mt-4">
-            <div class="col-md-2" style="width: 100%; flex-shrink: 5">
+  <h1>Hello!</h1>
+  <div class="container" style="justify-content: center">
+    <div class="row gutters-sm mt-4">
+      <div class="col-md-6 mb-3" style="flex-shrink: 0;">
+        <div class="card text-center" style="width:80%;">
+          <div class="card-body">
+            <div *ngIf="isLoading"><span>Loading ...</span></div>
+            <div *ngIf="!isLoading && dataError">
+              <h5>Error</h5>
+              <span>{{errorMessage}}</span>
             </div>
-            <div class="col-md-6 mb-3" style="flex-shrink: 0">
-                <div class="card" style="width:60%">
-                    <div class="card-body">
-                        <div *ngIf="isLoading"><span>Loading ...</span></div>
-                        <div *ngIf="!formSubmitted && !isLoading"> 
-                            <div *ngIf="survey.name != undefined"><h2 class="text-center"> {{survey.name}}</h2></div>
-                            <br>
-                            <br>
-                            <div *ngIf="survey.questions.length === 0"> No survey</div>
-                            <div *ngIf="survey.questions.length > 0">                       
-                                <div *ngFor='let question of survey.questions'>
-                                    <div *ngIf="question.isMultipleChoice"> 
-                                    <strong> {{question.text}}</strong> <br>                                      
-                                    <em> (You can select more than one answer)</em>      
-                                    <br> 
-                                    <br>
-                                    <div *ngFor='let answer of question.answers'> 
-                                        <input type='checkbox' (change)='logResponse($event, question, answer)' />  {{answer.text}}
-                                    </div> 
-                                    <span class="error">{{question.errorMessage}}</span>
-                                    <br>
-                                </div> 
-
-                                <div *ngIf="!question.isMultipleChoice">
-                                    <p><strong>{{question.text}}</strong></p> 
-                                    <div *ngFor='let answer of question.answers'>
-                                        <input type='radio' name={{question.questionID}} (change)='logResponse($event, question, answer)'/>  {{answer.text}} 
-                                    </div>
-                                    <span class="error">{{question.errorMessage}}</span>
-                                    <br>
-                                </div>         
-                            </div>   
-                                <button (click)='submitForm()' [disabled]="!formValid">Submit</button>   
-                            </div>
-
+            <div *ngIf="!isLoading && !surveySubmitted && !dataError ">
+              <div *ngIf="survey.name != undefined">
+                <h2 class="text-center"> {{survey.name}}</h2>
+              </div>
+              <br>
+              <br>
+              <div *ngIf="survey.questions.length === 0">No survey</div>
+              <div *ngIf="survey.questions.length > 0">
+                <span class="fw-bold">Your Name</span>
+                <input type='text' [(ngModel)]="survey.takerName" class="form-control text-center mb-3 mt-2" />
+                <div *ngFor='let question of survey.questions'>
+                  <span><strong>{{question.text}}</strong></span>
+                  <div *ngIf="!question.isMultipleChoice" class="mb-3">
+                    <input type='text' [(ngModel)]="question.responseText" (keyup)='logResponse($event, question, null)' class="form-control text-center mb-3 mt-3" />
+                    <p class="text-danger mt-3">{{question.validationMessage}}</p>
+                  </div>
+                  <div *ngIf="question.isMultipleChoice" class="mb-3">
+                    <p [innerText]="question.multipleAnswersPermitted ? '(You may select more than one answer)' : ''"></p>
+                    <div *ngFor='let option of question.multipleChoiceOptions'>
+                      <div class="row">
+                        <div class="col d-flex justify-content-end">
+                          <input
+                            [(ngModel)]="option.selected"
+                            type='checkbox'
+                            [name]="option.id.toString()"
+                            [checked]="option.selected"
+                            class="checkbox-large mb-2"
+                            (change)="logResponse($event, question, option.id)"
+                          />
                         </div>
-                        
-
-                        <div *ngIf="formSubmitted && !isLoading">  
-                        <h2>Results</h2>
-                        <br>
-                        <p>Questionnaire Responses : {{survey.totalResponses}} </p>
-                        <br>
-                        <br>
-                        <div *ngFor='let question of questions'>
-                            <p>{{question.text}}</p>                
-                            <div *ngFor='let answer of question.answers'> 
-                                {{answer.text}} <span>{{answer.percentage}} %</span>
-                                </div> 
-                            <br>    
-                        </div> 
-                        <button (click)="reset()">Take Questionnaire again</button>                          
+                        <div class="col d-flex justify-content-start">
+                          {{option.text}}
                         </div>
-                        <br/>
-
-                        <button [routerLink]="['/']">Back</button>
-
+                      </div>
                     </div>
-                    
+                    <span class="text-danger mb-3">{{question.validationMessage}}</span>
+                    <br>
+                  </div>
                 </div>
+                <button (click)='submitSurvey()' [disabled]="!formValid" class="btn btn-primary">Submit</button>
+              </div>
             </div>
-        <!-- <div class="col-md-2" style="width: 100%; flex-shrink: 5">
-        </div> -->
+            <div *ngIf="!isLoading && surveySubmitted && !dataError">
+              <h2>Results</h2>
+              <br>
+              <p class="fw-bold">Questionnaire Responses : {{survey.timesTaken}} </p>
+              <br>
+              <div *ngFor='let question of survey.questions'>
+                <div *ngIf="question.isMultipleChoice">
+                  <p class="fw-bold">{{question.text}}</p>
+                  <div *ngFor='let option of question.multipleChoiceOptions'>
+                    {{option.text}} <span>{{option.percentage}} %</span>
+                  </div>
+                  <br>
+                </div>
+              </div>
+              <button class="btn btn-sm btn-primary" (click)="reset()">Take survey again</button>
+            </div>
+            <br/>
+            <button class="btn btn-sm btn-secondary" (click)='onBackClick()'>Back {{surveySubmitted && dataError ? ' to survey' : ''}}</button>
+            <div>
+              <button class="mt-3 btn btn-sm btn-success" (click)='logAllResponses()'>Log Survey and responses</button>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
 </div>

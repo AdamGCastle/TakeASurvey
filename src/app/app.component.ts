@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
-import { ResponsesService } from './responses.service';
+import { ResponsesService } from './surveys.service';
 import { Survey } from './models';
 import { Subscription, Observable } from 'rxjs';
 
@@ -17,22 +17,22 @@ export class AppComponent implements OnInit {
   private serviceObvsSubscription: Subscription;
   constructor(private responsesService: ResponsesService, private cd: ChangeDetectorRef) {
   }
-  
- 
+
+
   questionnaireForm: FormGroup;
   formSubmitted: boolean = false;
   // responseList$: Observable<Answer[]>;
   // questions$: Observable<Question[]>;
-  
+
   totalResponses;
 
   ngOnInit() {
 
-     
-    
-   
 
-    
+
+
+
+
     //   //POPULATE questions.answers
     //   this.questions.forEach(question => {
     //     question.answers = this.responseList.filter(r => r.questionID === question.QuestionID);
@@ -48,6 +48,6 @@ export class AppComponent implements OnInit {
 
   reset() {
     location.reload()  }
-  
+
 
 }

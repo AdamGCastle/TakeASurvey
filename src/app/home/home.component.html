@@ -1,19 +1,27 @@
 <div class="content" role="main">
     <h1>Hello!</h1>
     <div class="container" style="justify-content: center">
-        <div class="row gutters-sm mt-4">
-            <div class="col-md-2" style="width: 100%; flex-shrink: 5">
-            </div>
-            <div class="col-md-6 mb-3" style="flex-shrink: 0">
-                <div class="card" style="width:60%">
+        <div class="row gutters-lg mt-4">
+            <div class="col-lg-9 mb-3" style="flex-shrink: 0">
+                <div class="card" style="width:80%; justify-content: center; text-align: center;">
                     <div class="card-body">
-                        <h1>Welcome to TakeASurvey!</h1>
-                        <p>Please select a survey to take from our list below:</p>
-                        <div *ngFor='let survey of surveys'>
-                            <ul>
-                                <li><a [routerLink]="['/takesurvey', survey.surveyID]">{{survey.name}}</a></li>
-                            </ul>                         
-                        </div>                      
+                        <h1 mb-3>Welcome to Take A Survey</h1>
+                        <br/>
+                        <div *ngIf="isLoading">
+                            <p>Loading surveys from database...this may take a few seconds...</p>
+                        </div>
+                        <div *ngIf="!isLoading && dataError">
+                          <p>{{errorMessage}}</p>
+                        </div>
+                        <div *ngIf="!isLoading && !dataError && surveys.length === 0">
+                          <p>There aren't any surveys yet. Watch this space!</p>
+                        </div>
+                        <div *ngIf="!isLoading && !dataError && surveys.length > 0">
+                          <p>Please select a survey to take from our list below:</p>
+                          <div *ngFor='let survey of surveys'>
+                              <p class="mb-3"><button class="btn btn-success" [routerLink]="['/takesurvey', survey.id]">{{survey.name}}</button></p>
+                          </div>
+                      </div>
                     </div>
                 </div>
             </div>
