@@ -12,41 +12,41 @@
             </div>
             <div *ngIf="!isLoading && !surveySubmitted && !dataError ">
               <div *ngIf="survey.name != undefined">
-                <h2 class="text-center"> {{survey.name}}</h2>
+                <h2 class="text-center mb-2"> {{survey.name}}</h2>
               </div>
-              <br>
               <br>
               <div *ngIf="survey.questions.length === 0">No survey</div>
               <div *ngIf="survey.questions.length > 0">
                 <span class="fw-bold">Your Name</span>
                 <input type='text' [(ngModel)]="survey.takerName" class="form-control survey-input-text mb-3 mt-2" />
                 <div *ngFor='let question of survey.questions'>
-                  <span class=""><strong>{{question.text}}</strong></span>
-                  <div *ngIf="!question.isMultipleChoice" class="mb-3">
-                    <input type='text' [(ngModel)]="question.responseText" (keyup)='logResponse($event, question, null)' class="form-control text-center survey-input-text mb-3 mt-3" />
-                    <p class="text-danger mt-3">{{question.validationMessage}}</p>
-                  </div>
-                  <div *ngIf="question.isMultipleChoice" class="mb-3">
-                    <p [innerText]="question.multipleAnswersPermitted ? '(You may select more than one answer)' : ''"></p>
-                    <div *ngFor='let option of question.multipleChoiceOptions'>
-                      <div class="row">
-                        <div class="col col-2 col-sm-4 col-lg-6 d-flex justify-content-end">
-                          <input
-                            [(ngModel)]="option.selected"
-                            type='checkbox'
-                            [name]="option.id.toString()"
-                            [checked]="option.selected"
-                            class="checkbox-large mb-2"
-                            (change)="logResponse($event, question, option.id)"
-                          />
-                        </div>
-                        <div class="col col-10 col-sm-8 col-lg-6 d-flex justify-content-start">
-                          {{option.text}}
-                        </div>
+                    <div class="question-container p-3 mb-3">
+                      <span class=""><strong>{{question.text}}</strong></span>
+                      <div *ngIf="!question.isMultipleChoice" class="mb-3">
+                        <input type='text' [(ngModel)]="question.responseText" (keyup)='logResponse($event, question, null)' class="form-control text-center survey-input-text mb-3 mt-3" />
+                        <p class="text-danger mt-3">{{question.validationMessage}}</p>
                       </div>
-                    </div>
-                    <span class="text-danger mb-3">{{question.validationMessage}}</span>
-                    <br>
+                      <div *ngIf="question.isMultipleChoice" class="mb-3">
+                        <p [innerText]="question.multipleAnswersPermitted ? '(You may select more than one answer)' : ''"></p>
+                        <div *ngFor='let option of question.multipleChoiceOptions'>
+                          <div class="row">
+                            <div class="col col-2 col-sm-4 col-lg-6 d-flex justify-content-end">
+                              <input
+                                [(ngModel)]="option.selected"
+                                type='checkbox'
+                                [name]="option.id.toString()"
+                                [checked]="option.selected"
+                                class="checkbox-large mb-2"
+                                (change)="logResponse($event, question, option.id)"
+                              />
+                            </div>
+                            <div class="col col-10 col-sm-8 col-lg-6 d-flex justify-content-start">
+                              {{option.text}}
+                            </div>
+                          </div>
+                        </div>
+                        <span class="text-danger mb-3">{{question.validationMessage}}</span>
+                      </div>
                   </div>
                 </div>
                 <button (click)='submitSurvey()' [disabled]="!formValid" class="btn btn-primary">Submit</button>
@@ -59,10 +59,12 @@
               <br>
               <div *ngFor='let question of survey.questions'>
                 <div *ngIf="question.isMultipleChoice">
-                  <p class="fw-bold">{{question.text}}</p>
-                  <div *ngFor='let option of question.multipleChoiceOptions'>
-                    {{option.text}} <span>{{option.percentage}} %</span>
-                  </div>
+                  <div class="question-container">
+                    <p class="fw-bold">{{question.text}}</p>
+                    <div *ngFor='let option of question.multipleChoiceOptions'>
+                      {{option.text}} <span>{{option.percentage}} %</span>
+                    </div>
+                </div>
                   <br>
                 </div>
               </div>

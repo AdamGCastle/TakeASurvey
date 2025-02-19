@@ -74,7 +74,8 @@
 body {
   background: url('/assets/img/takeASurveyBackground.jpeg') no-repeat center center fixed;
   margin: 0;
-  font-family: var(--bs-body-font-family);
+  /* font-family: var(--bs-body-font-family); */
+  font-family:Georgia, 'Times New Roman', Times, serif;
   font-size: var(--bs-body-font-size);
   font-weight: var(--bs-body-font-weight);
   line-height: var(--bs-body-line-height);
@@ -251,6 +252,15 @@ a:hover {
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
   color: inherit;
   text-decoration: none;
+}
+
+.question-container {
+  border:#D1D6DA 1px solid ; /* Thin, dark grey border */
+  background-color: rgba(255, 255, 255, 0.7);
+  /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
+  /* -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
+  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); */
+
 }
 
 pre,
@@ -4504,11 +4514,10 @@ textarea.form-control-lg {
   flex-direction: column;
   min-width: 0;
   word-wrap: break-word;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, 0.75);
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
   border-radius: 0rem;
-  opacity: 0.8;
 }
 .card > hr {
   margin-right: 0;
@@ -4616,6 +4625,10 @@ textarea.form-control-lg {
 
 .card-group > .card {
   margin-bottom: 0.75rem;
+}
+
+.card-survey{
+  color:#34383c;
 }
 
 @media (min-width: 576px) {

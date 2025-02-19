@@ -16,7 +16,7 @@
                           <p>There aren't any surveys yet. Watch this space!</p>
                         </div>
                         <div *ngIf="!isLoading && !dataError && surveys.length > 0">
-                          <p>Please select a survey to take from our list below:</p>
+                          <p>Please select a survey from the list below:</p>
                           <div *ngFor='let survey of surveys' class="mb-2">
                               <a [routerLink]="['/takesurvey', survey.id]" class="a-survey">{{survey.name}}</a>
                           </div>
