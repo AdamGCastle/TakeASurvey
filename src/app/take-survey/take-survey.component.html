@@ -23,7 +23,7 @@
                 <div *ngFor='let question of survey.questions'>
                   <span class=""><strong>{{question.text}}</strong></span>
                   <div *ngIf="!question.isMultipleChoice" class="mb-3">
-                    <input type='text' [(ngModel)]="question.responseText" (keyup)='logResponse($event, question, null)' class="form-control text-center mb-3 mt-3" />
+                    <input type='text' [(ngModel)]="question.responseText" (keyup)='logResponse($event, question, null)' class="form-control text-center survey-input-text mb-3 mt-3" />
                     <p class="text-danger mt-3">{{question.validationMessage}}</p>
                   </div>
                   <div *ngIf="question.isMultipleChoice" class="mb-3">
@@ -40,7 +40,7 @@
                             (change)="logResponse($event, question, option.id)"
                           />
                         </div>
-                        <div class="col col-10 col-sm-8 col-lg-6 d-flex survey-input-text justify-content-start">
+                        <div class="col col-10 col-sm-8 col-lg-6 d-flex justify-content-start">
                           {{option.text}}
                         </div>
                       </div>
@@ -66,7 +66,6 @@
                   <br>
                 </div>
               </div>
-              <button class="btn btn-sm btn-primary" (click)="reset()">Take survey again</button>
             </div>
             <br/>
             <button class="btn btn-sm btn-secondary" (click)='onBackClick()'>Back {{surveySubmitted && dataError ? ' to survey' : ''}}</button>
