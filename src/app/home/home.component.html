@@ -1,11 +1,10 @@
 <div class="content" role="main">
-    <h1>Hello!</h1>
     <div class="container" style="justify-content: center">
         <div class="row gutters-lg mt-4">
-            <div class="col-lg-9 mb-3" style="flex-shrink: 0">
-                <div class="card" style="width:80%; justify-content: center; text-align: center;">
-                    <div class="card-body">
-                        <h1 mb-3>Welcome to Take A Survey</h1>
+            <div class="mb-3" style="flex-shrink: 0; ">
+                  <div class="card" style="width:80%; justify-self: center;">
+                    <div class="card-body text-center">
+                        <h1 mb-3>Take a Survey</h1>
                         <br/>
                         <div *ngIf="isLoading">
                             <p>Loading surveys from database...this may take a few seconds...</p>
@@ -18,8 +17,8 @@
                         </div>
                         <div *ngIf="!isLoading && !dataError && surveys.length > 0">
                           <p>Please select a survey to take from our list below:</p>
-                          <div *ngFor='let survey of surveys'>
-                              <p class="mb-3"><button class="btn btn-success" [routerLink]="['/takesurvey', survey.id]">{{survey.name}}</button></p>
+                          <div *ngFor='let survey of surveys' class="mb-2">
+                              <a [routerLink]="['/takesurvey', survey.id]" class="a-survey">{{survey.name}}</a>
                           </div>
                       </div>
                     </div>

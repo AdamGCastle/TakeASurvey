@@ -8,7 +8,6 @@ import { Router, ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-take-survey',
   templateUrl: './take-survey.component.html',
-  styleUrls: ['./take-survey.component.css'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 

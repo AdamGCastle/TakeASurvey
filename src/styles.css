@@ -72,6 +72,7 @@
 }
 
 body {
+  background: url('/assets/img/takeASurveyBackground.jpeg') no-repeat center center fixed;
   margin: 0;
   font-family: var(--bs-body-font-family);
   font-size: var(--bs-body-font-size);
@@ -230,11 +231,21 @@ sup {
 }
 
 a {
-  color: #0d6efd;
-  text-decoration: underline;
+  text-decoration: none;
+  font-weight: 600;
+  color:grey;
+  transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
+  border-bottom: 2px solid transparent; /* Adds a hover effect */
+  padding-bottom: 2px;
 }
+
+.a-survey {
+  color:#198754;
+}
+
 a:hover {
-  color: #0a58ca;
+    color: #0056b3; /* A darker blue on hover */
+    border-bottom: 2px solid #0056b3; /* Adds a modern underline effect */
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -4011,7 +4022,7 @@ textarea.form-control-lg {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
 }
@@ -4495,7 +4506,8 @@ textarea.form-control-lg {
   background-color: #fff;
   background-clip: border-box;
   border: 1px solid rgba(0, 0, 0, 0.125);
-  border-radius: 0.25rem;
+  border-radius: 0rem;
+  opacity: 0.8;
 }
 .card > hr {
   margin-right: 0;
@@ -4604,6 +4616,7 @@ textarea.form-control-lg {
 .card-group > .card {
   margin-bottom: 0.75rem;
 }
+
 @media (min-width: 576px) {
   .card-group {
     display: flex;
@@ -4640,6 +4653,35 @@ textarea.form-control-lg {
   .card-group > .card:not(:first-child) .card-img-bottom,
 .card-group > .card:not(:first-child) .card-footer {
     border-bottom-left-radius: 0;
+  }
+  .card-survey {
+    text-align: center !important;
+    width: 100%;
+    justify-self: center;
+  }
+}
+
+@media (min-width: 576px) and (max-width:1024px){
+  input.survey-input-text {
+    text-align: center !important;
+    width: 80% !important;
+    justify-self: center;
+  }
+}
+
+@media(min-width: 768){
+  .card-survey {
+  width: 80%;
+  justify-self: center;
+  }
+}
+
+ @media(min-width: 1200px){
+
+  input.survey-input-text {
+    text-align: center !important;
+    width: 60% !important;
+    justify-self: center;
   }
 }
 

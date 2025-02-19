@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  webApiUrl: 'https://portfoliowebapi-dvbwcscga0bygyf4.uksouth-01.azurewebsites.net'  // Development URL
+  //webApiUrl: 'https://portfoliowebapi-dvbwcscga0bygyf4.uksouth-01.azurewebsites.net'  // Production URL
+  webApiUrl: 'https://localhost:44327'  //local dev
 };
 
 /*
