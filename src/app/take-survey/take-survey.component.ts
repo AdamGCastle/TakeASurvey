@@ -23,6 +23,7 @@ export class TakeSurveyComponent implements OnInit {
   survey: Survey;
   surveySubmitted: boolean;
   isLoading: boolean;
+  showDbReactivationMessage: boolean;
   formValid: boolean;
   dataError: boolean;
   errorMessage: string;
@@ -30,6 +31,7 @@ export class TakeSurveyComponent implements OnInit {
   ngOnInit() {
     this.isLoading = true;
     const id = this.route.snapshot.paramMap.get('id');
+    this.handleDbSleepMode();
     this.responsesService.getSurvey$(id).subscribe({
       next: (data) => {
         this.survey = data;
@@ -45,6 +47,7 @@ export class TakeSurveyComponent implements OnInit {
 
         this.dataError = false;
         this.isLoading = false;
+        this.showDbReactivationMessage = false;
         this.cd.markForCheck();
       },
       error: (err) => {
@@ -52,13 +55,14 @@ export class TakeSurveyComponent implements OnInit {
         this.dataError = true;
         this.errorMessage = "Failed to load the survey. Please try again later.";
         this.isLoading = false;
+        this.showDbReactivationMessage = false;
         this.cd.markForCheck();
       }
     });
   }
 
   reset() {
-    location.reload()
+    location.reload();
   }
 
   logResponse(e: any, question: Question, chosenOptionId: number){
@@ -80,6 +84,13 @@ export class TakeSurveyComponent implements OnInit {
 
   toggleSelection(option: any) {
     option.selected = !option.selected;
+  }
+
+  handleDbSleepMode() {
+    setTimeout( () => {
+      this.showDbReactivationMessage = this.isLoading;
+      this.cd.markForCheck();
+    }, 5000);
   }
 
   validateQuestion(question: Question) {

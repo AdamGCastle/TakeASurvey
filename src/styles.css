@@ -235,7 +235,7 @@ a {
   text-decoration: none;
   /* font-weight: 300; */
   font-variation-settings: "wght" 300;
-  color:grey;
+  color:var(--bs-secondary);
   transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out, font-variation-settings 0.3s ease-in-out;
   border-bottom: 2px solid transparent; /* Adds a hover effect */
   padding-bottom: 2px;
@@ -259,9 +259,12 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 }
 
 .question-container {
-  border:#D1D6DA 1px solid ; /* Thin, dark grey border */
+  border:#D1D6DA 1px solid ;
   background-color: rgba(255, 255, 255, 0.7);
+}
 
+.db-reactivation-message {
+  color: #003e81; ;
 }
 
 pre,

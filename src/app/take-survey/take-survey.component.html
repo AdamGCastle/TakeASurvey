@@ -5,7 +5,10 @@
       <div class="col-lg-8 container-col">
         <div class="card text-center">
           <div class="card-body">
-            <div *ngIf="isLoading"><span>Loading ...</span></div>
+            <div *ngIf="isLoading"><span class="text-secondary">Loading ...</span></div>
+            <div *ngIf="showDbReactivationMessage" class="db-reactivation-message mt-3">
+              <p>Database in sleep mode. Please allow up to 45 seconds to reactivate...</p>
+            </div>
             <div *ngIf="!isLoading && dataError">
               <h5>Error</h5>
               <span>{{errorMessage}}</span>
