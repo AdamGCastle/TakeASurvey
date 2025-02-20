@@ -68,7 +68,7 @@ export class TakeSurveyComponent implements OnInit {
       this.survey.questions.forEach(q => {
         if (q.id == question.id){
           q.multipleChoiceOptions.forEach(o => {
-            o.selected = o.id == chosenOptionId && e.target.checked;
+            o.selected = o.id == chosenOptionId;
           });
         }
       });
@@ -76,6 +76,10 @@ export class TakeSurveyComponent implements OnInit {
 
     this.validateQuestion(question);
     this.cd.markForCheck();
+  }
+
+  toggleSelection(option: any) {
+    option.selected = !option.selected;
   }
 
   validateQuestion(question: Question) {
@@ -131,7 +135,6 @@ export class TakeSurveyComponent implements OnInit {
         this.isLoading = false;
         this.surveySubmitted = true;
         this.cd.markForCheck();
-
       }
     })
   };

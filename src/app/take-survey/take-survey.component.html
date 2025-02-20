@@ -3,7 +3,7 @@
     <div class="row gutters-sm mt-4">
       <div class="col col-lg-2"></div>
       <div class="col-lg-8 container-col">
-        <div class="card card-survey">
+        <div class="card text-center">
           <div class="card-body">
             <div *ngIf="isLoading"><span>Loading ...</span></div>
             <div *ngIf="!isLoading && dataError">
@@ -12,7 +12,7 @@
             </div>
             <div *ngIf="!isLoading && !surveySubmitted && !dataError ">
               <div *ngIf="survey.name != undefined">
-                <h2 class="text-center mb-2"> {{survey.name}}</h2>
+                <h1 class="page-title text-center mb-2"> {{survey.name}}</h1>
               </div>
               <br>
               <div *ngIf="survey.questions.length === 0">No survey</div>
@@ -24,28 +24,22 @@
                       <span class=""><strong>{{question.text}}</strong></span>
                       <div *ngIf="!question.isMultipleChoice" class="mb-3">
                         <input type='text' [(ngModel)]="question.responseText" (keyup)='logResponse($event, question, null)' class="form-control text-center survey-input-text mb-3 mt-3" />
-                        <p class="text-danger mt-3">{{question.validationMessage}}</p>
+                        <p class="text-danger mt-3 fw-bold">{{question.validationMessage}}</p>
                       </div>
                       <div *ngIf="question.isMultipleChoice" class="mb-3">
                         <p [innerText]="question.multipleAnswersPermitted ? '(You may select more than one answer)' : ''"></p>
                         <div *ngFor='let option of question.multipleChoiceOptions'>
-                          <div class="row">
-                            <div class="col col-2 col-sm-4 col-lg-6 d-flex justify-content-end">
-                              <input
-                                [(ngModel)]="option.selected"
-                                type='checkbox'
-                                [name]="option.id.toString()"
-                                [checked]="option.selected"
-                                class="checkbox-large mb-2"
-                                (change)="logResponse($event, question, option.id)"
-                              />
-                            </div>
-                            <div class="col col-10 col-sm-8 col-lg-6 d-flex justify-content-start">
-                              {{option.text}}
+                          <div class="row multiple-choice-container">
+                            <div
+                              class="selectable-box m-1"
+                              [class.selected]="option.selected"
+                              (click)="toggleSelection(option); logResponse($event, question, option.id)"
+                            >
+                              {{ option.text }}
                             </div>
                           </div>
                         </div>
-                        <span class="text-danger mb-3">{{question.validationMessage}}</span>
+                        <span class="text-danger mb-3 fw-bold">{{question.validationMessage}}</span>
                       </div>
                   </div>
                 </div>

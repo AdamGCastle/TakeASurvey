@@ -233,11 +233,13 @@ sup {
 
 a {
   text-decoration: none;
-  font-weight: 600;
+  /* font-weight: 300; */
+  font-variation-settings: "wght" 300;
   color:grey;
-  transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out;
+  transition: color 0.3s ease-in-out, border-bottom 0.3s ease-in-out, font-variation-settings 0.3s ease-in-out;
   border-bottom: 2px solid transparent; /* Adds a hover effect */
   padding-bottom: 2px;
+
 }
 
 .a-survey {
@@ -246,7 +248,8 @@ a {
 
 a:hover {
     color: #0056b3; /* A darker blue on hover */
-    border-bottom: 2px solid #0056b3; /* Adds a modern underline effect */
+    border-bottom: 1px solid #0056b3; /* Adds a modern underline effect */
+    font-weight: 600;
 }
 
 a:not([href]):not([class]), a:not([href]):not([class]):hover {
@@ -257,9 +260,6 @@ a:not([href]):not([class]), a:not([href]):not([class]):hover {
 .question-container {
   border:#D1D6DA 1px solid ; /* Thin, dark grey border */
   background-color: rgba(255, 255, 255, 0.7);
-  /*box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* Subtle shadow for depth */
-  /* -webkit-mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0));
-  mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 1), rgba(0, 0, 0, 0)); */
 
 }
 
@@ -4509,6 +4509,7 @@ textarea.form-control-lg {
 }
 
 .card {
+  color: #212529e3;
   position: relative;
   display: flex;
   flex-direction: column;
@@ -4627,8 +4628,57 @@ textarea.form-control-lg {
   margin-bottom: 0.75rem;
 }
 
-.card-survey{
-  color:#34383c;
+.page-title{
+  position: relative;
+  display: inline-block;
+  padding-bottom: 5px; /* Space between text and underline */
+}
+
+.page-title::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  height: 1%; /* Adjust thickness */
+  background-image: linear-gradient(to right,
+    rgba(255, 255, 255, 1) 0%,   /* White start */
+    #151515 40%,                 /* Start of main color */
+    #151515 60%,                 /* End of main color */
+    rgba(255, 255, 255, 1) 100%  /* White end */
+  );
+  transition: transform 0.3s ease-in-out;
+  transform: scaleX(1); /* Always visible */
+}
+.multiple-choice-container {
+  justify-content: center;
+}
+
+.selectable-box {
+  color:#3f3f3f;
+  display: inline-block;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.3s ease-in-out;
+  white-space: nowrap;
+  min-width: fit-content;
+  max-width: fit-content;
+  border-radius: 0.25rem;
+}
+
+.selectable-box.selected {
+  background-color:#C1E1C1;
+  width: 80%;
+  border-color: #355e3b;
+  box-shadow: 0 0 5px rgb(53, 94, 59);
+}
+
+@media (min-width: 576px) {
+  .selectable-box:hover {
+    color: #355E3B;
+    border: 1px solid #355E3B;
+  }
 }
 
 @media (min-width: 576px) {
@@ -4668,11 +4718,6 @@ textarea.form-control-lg {
 .card-group > .card:not(:first-child) .card-footer {
     border-bottom-left-radius: 0;
   }
-  .card-survey {
-    text-align: center !important;
-    width: 100%;
-    justify-self: center;
-  }
 }
 
 @media (min-width: 576px) and (max-width:1024px){
@@ -4680,13 +4725,6 @@ textarea.form-control-lg {
     text-align: center !important;
     width: 80% !important;
     justify-self: center;
-  }
-}
-
-@media(min-width: 768){
-  .card-survey {
-  width: 80%;
-  justify-self: center;
   }
 }
 
