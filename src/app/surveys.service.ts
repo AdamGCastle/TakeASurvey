@@ -56,8 +56,6 @@ export class ResponsesService {
   }
 
   submitSurvey(surveyResponse: SurveyResponse){
-    console.log('surveyResponse to submit: ', surveyResponse);
-
     return this.httpClient
       .put<Survey>(`${environment.webApiUrl}/Surveys/SubmitSurveyResponse`, surveyResponse)
       .pipe(

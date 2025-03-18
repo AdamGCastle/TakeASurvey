@@ -50,16 +50,27 @@
               </div>
             </div>
             <div *ngIf="!isLoading && surveySubmitted && !dataError">
-              <h2>Results</h2>
-              <br>
-              <p class="fw-bold">Questionnaire Responses : {{survey.timesTaken}} </p>
-              <br>
+              <p class="fs-4 fw-bold">{{survey.name}} - {{survey.timesTaken}} responses</p>
+              <p class="text-secondary">% - percentage of respondants who selected this answer</p>
               <div *ngFor='let question of survey.questions'>
                 <div *ngIf="question.isMultipleChoice">
-                  <div class="question-container">
+                  <div class="question-container p-2">
                     <p class="fw-bold">{{question.text}}</p>
                     <div *ngFor='let option of question.multipleChoiceOptions'>
-                      {{option.text}} <span>{{option.percentage}} %</span>
+                      <div class="row mb-1 align-items-center">
+                        <div class="col d-flex justify-content-end">{{option.text}}:</div>
+                        <div class="col d-flex text-secondary">
+                          <div class="progress w-100" style="height: 8px;">
+                            <div class="progress-bar" role="progressbar"
+                                 [style.width.%]="option.percentage"
+                                 [attr.aria-valuenow]="option.percentage"
+                                 aria-valuemin="0" aria-valuemax="100"></div>
+                          </div>
+                        </div>
+                        <div class="col d-flex text-secondary">
+                          <span class="me-2">{{ option.percentage }}%</span>
+                        </div>
+                      </div>
                     </div>
                 </div>
                   <br>
